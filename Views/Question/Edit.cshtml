@@ -1,0 +1,63 @@
+﻿@model KcetPrep1.Models.Question
+
+@{
+    ViewData["Title"] = "Edit Question";
+    var subjects = new[] { "Physics", "Chemistry", "Mathematics", "Biology" };
+}
+
+<h1>Edit Question</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <div class="form-group">
+        <label asp-for="Subject"></label>
+        <select asp-for="Subject" class="form-control" asp-items="new SelectList(subjects)">
+            <option value="">-- Select Subject --</option>
+        </select>
+        <span asp-validation-for="Subject" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="QuestionText"></label>
+        <textarea asp-for="QuestionText" class="form-control"></textarea>
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OptionA"></label>
+        <input asp-for="OptionA" class="form-control" />
+        <span asp-validation-for="OptionA" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OptionB"></label>
+        <input asp-for="OptionB" class="form-control" />
+        <span asp-validation-for="OptionB" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OptionC"></label>
+        <input asp-for="OptionC" class="form-control" />
+        <span asp-validation-for="OptionC" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OptionD"></label>
+        <input asp-for="OptionD" class="form-control" />
+        <span asp-validation-for="OptionD" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CorrectAnswer"></label>
+        <input asp-for="CorrectAnswer" class="form-control" />
+        <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

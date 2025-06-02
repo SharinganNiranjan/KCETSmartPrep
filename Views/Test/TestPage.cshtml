@@ -1,0 +1,42 @@
+﻿@model List<KcetPrep1.Models.Question>
+@{
+    ViewData["Title"] = "Take Test";
+}
+
+<h1>@ViewBag.TestName (@ViewBag.Subject)</h1>
+<p>Total Questions: @ViewBag.QuestionCount</p>
+
+<form asp-action="SubmitTest" method="post">
+    <input type="hidden" name="testId" value="@ViewBag.TestId" />
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        var question = Model[i];
+        <div class="card mb-3">
+            <div class="card-header">
+                Question @(i + 1)
+            </div>
+            <div class="card-body">
+                <p>@question.QuestionText</p>
+                <div class="form-group">
+                    <input type="radio" name="answers[@question.Id]" value="A" required /> A. @question.OptionA <br />
+                    <input type="radio" name="answers[@question.Id]" value="B" /> B. @question.OptionB <br />
+                    <input type="radio" name="answers[@question.Id]" value="C" /> C. @question.OptionC <br />
+                    <input type="radio" name="answers[@question.Id]" value="D" /> D. @question.OptionD
+                </div>
+            </div>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Submit Test</button>
+</form>
+
+<a asp-action="ListTests" asp-route-subject="@ViewBag.Subject" class="btn btn-secondary mt-3">Back to Tests</a>
+
+@section Scripts {
+    <script>
+        document.querySelector('form').addEventListener('submit', function () {
+            console.log('Form submitted with testId: ' + document.querySelector('input[name="testId"]').value);
+        });
+    </script>
+}

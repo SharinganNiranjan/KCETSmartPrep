@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Test Result";
+    // Calculate percentage safely
+    var score = ViewBag.Score as int? ?? 0;
+    var total = ViewBag.Total as int? ?? 0;
+    var percentage = total > 0 ? (double)score / total * 100 : 0;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="alert alert-info">
+    <p>Your Score: <strong>@score</strong> / <strong>@total</strong></p>
+    <p>Percentage: <strong>@percentage.ToString("F2")%</strong></p>
+</div>
+
+<a asp-action="SelectSubject" class="btn btn-primary me-2">Take Another Test</a>
+<a asp-action="Result" class="btn btn-secondary">View Last Result</a>

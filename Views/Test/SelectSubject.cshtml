@@ -1,0 +1,24 @@
+﻿@model string[]
+@{
+    ViewData["Title"] = "Select Subject";
+}
+
+<h1>Select Subject for Mock Test</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="ListTests" method="get">
+    <div class="form-group">
+        <label>Subject</label>
+        <select name="subject" class="form-control">
+            @foreach (var subject in Model)
+            {
+                <option value="@subject">@subject</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">View Tests</button>
+</form>

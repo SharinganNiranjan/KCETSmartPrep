@@ -1,0 +1,22 @@
+﻿<h2>Upload Document Template</h2>
+
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+    <div>
+        <label>Document Name:</label>
+        <input type="text" name="documentName" required />
+    </div>
+    <div>
+        <label>Select File:</label>
+        <input type="file" name="file" required />
+    </div>
+    <button type="submit">Upload</button>
+</form>
+
+@if (TempData["Success"] != null)
+{
+    <p style="color:green;">@TempData["Success"]</p>
+}
+@if (TempData["Error"] != null)
+{
+    <p style="color:red;">@TempData["Error"]</p>
+}

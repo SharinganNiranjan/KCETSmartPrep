@@ -1,0 +1,31 @@
+﻿@model List<KcetPrep1.Models.Question>
+
+@using (Html.BeginForm("Submit", "Test", FormMethod.Post))
+{
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div>
+            <p><b>Q@(i + 1). @Model[i].QuestionText</b></p>
+            <input type="hidden" name="[@i].QuestionId" value="@Model[i].Id" />
+            <input type="radio" name="[@i].SelectedAnswer" value="A" required /> @Model[i].OptionA <br />
+            <input type="radio" name="[@i].SelectedAnswer" value="B" /> @Model[i].OptionB <br />
+            <input type="radio" name="[@i].SelectedAnswer" value="C" /> @Model[i].OptionC <br />
+            <input type="radio" name="[@i].SelectedAnswer" value="D" /> @Model[i].OptionD <br />
+        </div>
+        <hr />
+    }
+    <button type="submit">Submit</button>
+}
+<script>
+    let totalSeconds = 60 * 60;
+    const timer = setInterval(() => {
+        totalSeconds--;
+        if (totalSeconds <= 0) {
+            clearInterval(timer);
+            alert("Time up! Auto submitting.");
+            document.forms[0].submit();
+        }
+        document.getElementById("timer").innerText = `${Math.floor(totalSeconds/60)}:${totalSeconds%60}`;
+    }, 1000);
+</script>
+<div>Time Left: <span id="timer">60:00</span></div>

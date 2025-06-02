@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Extract PDF";
+}
+
+<h2>Extract PDF</h2>
+
+<form asp-controller="Home" asp-action="ExtractPDFSubmit" method="post">
+    <button type="submit" class="btn btn-primary">Run Python Extract</button>
+</form>
+
+@if (ViewBag.Response != null)
+{
+    <p>Response: @ViewBag.Response</p>
+}

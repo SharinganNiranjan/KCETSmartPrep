@@ -1,0 +1,46 @@
+﻿@model List<KcetPrep1.Models.Test>
+@{
+    ViewData["Title"] = "Tests";
+}
+
+<h1>Tests for @ViewBag.Subject</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <p>No tests available. <a asp-action="CreateTest" asp-route-subject="@ViewBag.Subject">Create a new test</a>.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Test Name</th>
+                <th>Subject</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var test in Model)
+            {
+                <tr>
+                    <td>@test.TestName</td>
+                    <td>@test.Subject</td>
+                    <td><a asp-action="StartTest" asp-route-testId="@test.Id" class="btn btn-sm btn-primary">Take Test</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="SelectSubject" class="btn btn-secondary">Back to Subjects</a>
+
+@section Scripts {
+    <script>
+        // Optional: Add client-side enhancements if needed
+    </script>
+}

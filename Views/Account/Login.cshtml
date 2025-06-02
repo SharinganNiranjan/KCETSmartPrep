@@ -1,0 +1,57 @@
+﻿@model KcetPrep1.Models.LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid vh-100 d-flex align-items-center">
+    <div class="row w-100">
+        <!-- Left side quote -->
+        <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center">
+            <blockquote class="blockquote text-center p-4">
+                <p class="mb-0 fs-4">"If the poor boy cannot come to education, education must go to him."</p>
+                <footer class="blockquote-footer mt-3">Swami Vivekananda</footer>
+            </blockquote>
+        </div>
+
+        <!-- Right side login fields -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="w-75">
+                <h1 class="mb-4">@ViewData["Title"]</h1>
+                <section>
+                    <form asp-action="Login" method="post">
+                        <h4>Use a local account to log in.</h4>
+                        <hr />
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" type="password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input asp-for="RememberMe" class="form-check-input" />
+                            <label asp-for="RememberMe" class="form-check-label"></label>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary w-100">Log in</button>
+                        </div>
+                        <div class="mb-3">
+                            <a asp-controller="Account" asp-action="ForgotPassword">Forgot your password?</a><br />
+                            <a asp-controller="Account" asp-action="Register">Register as a new user</a>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

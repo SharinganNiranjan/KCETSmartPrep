@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "Predict Colleges";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // Rehydrate the inputs
+    var enteredRank = ViewBag.UserRank as int?;
+    var enteredCategory = ViewBag.UserCategory as string;
+    var enteredBranch = ViewBag.UserBranch as string;
+}
+
+<h2 class="my-4 text-center">KCET College Predictor</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form method="post" asp-action="PredictColleges" class="mb-5">
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label for="userRank" class="form-label">Rank:</label>
+            <input type="number"
+                   id="userRank"
+                   name="userRank"
+                   class="form-control"
+                   required
+                   min="1"
+                   value="@(enteredRank?.ToString() ?? "")" />
+        </div>
+        <div class="col-md-3">
+            <label for="userCategory" class="form-label">Category:</label>
+            <input type="text"
+                   id="userCategory"
+                   name="userCategory"
+                   class="form-control"
+                   required
+                   value="@(enteredCategory ?? "")" />
+        </div>
+      
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary w-100">Predict</button>
+        </div>
+    </div>
+</form>
+
+@if (ViewBag.Predictions != null)
+{
+    <div class="mb-4">
+        <p class="fs-5">
+            You entered
+            <strong>Rank: @enteredRank</strong>,
+            <strong>Category: @enteredCategory</strong>
+            and
+            <strong>Branch: @(string.IsNullOrEmpty(enteredBranch) ? "Any" : enteredBranch)</strong>.<br />
+            These are the colleges you may get for your rank:
+        </p>
+    </div>
+
+    @if (ViewBag.Predictions.Count > 0)
+    {
+        <!-- Search box -->
+        <div class="input-group mb-3">
+            <input type="text"
+                   id="tableSearch"
+                   class="form-control"
+                   placeholder="Search for any keyword..." />
+            <button class="btn btn-outline-secondary"
+                    type="button"
+                    id="btnSearch">
+                Search
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped" id="predictionsTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>College</th>
+                        <th>Branch</th>
+                        <th>Category</th>
+                        <th>Closing Rank</th>
+                        <th>Chance</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.Predictions)
+                    {
+                        <tr>
+                            <td>@item.CollegeName</td>
+                            <td>@item.Branch</td>
+                            <td>@item.Category</td>
+                            <td>@item.ClosingRank</td>
+                            <td>@item.Chance</td>
+                            <td>@item.Years</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            No matching colleges found for your criteria.
+        </div>
+    }
+}
+
+@section Scripts {
+    <script>
+        (function () {
+            var input = document.getElementById('tableSearch');
+            var btn = document.getElementById('btnSearch');
+            var tbl = document.getElementById('predictionsTable');
+            if (!tbl) return;
+            var rows = tbl.tBodies[0].rows;
+
+            function filter() {
+                var kw = input.value.trim().toLowerCase();
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].style.display =
+                        rows[i].textContent.toLowerCase().includes(kw)
+                            ? '' : 'none';
+                }
+            }
+
+            btn.addEventListener('click', filter);
+            input.addEventListener('keyup', function (e) {
+                if (e.key === 'Enter') filter();
+            });
+        })();
+    </script>
+}

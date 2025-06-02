@@ -1,0 +1,39 @@
+﻿@model KcetPrep1.Models.CreateTestViewModel
+@{
+    ViewData["Title"] = "Create New Test";
+    var subjects = new[] { "Physics", "Chemistry", "Mathematics", "Biology" };
+}
+
+<h1>Create New Test</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="CreateTest" method="post">
+    <div class="form-group">
+        <label for="Subject" class="control-label">Subject</label>
+        <select asp-for="Subject" class="form-control" required>
+            <option value="">Select a subject</option>
+            @foreach (var subject in subjects)
+            {
+                <option value="@subject" selected="@(subject == Model.Subject ? "selected" : null)">@subject</option>
+            }
+        </select>
+        <span asp-validation-for="Subject" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TestName" class="control-label"></label>
+        <input asp-for="TestName" class="form-control" />
+        <span asp-validation-for="TestName" class="text-danger"></span>
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-primary">Create Test</button>
+        <a asp-action="ListTests" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
