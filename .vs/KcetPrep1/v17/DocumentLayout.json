@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|c:\\users\\hirem\\source\\repos\\kcetprep1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|c:\\users\\hirem\\source\\repos\\kcetprep1\\kcet_cleaned.csv||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|solutionrelative:kcet_cleaned.csv||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -61,10 +65,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|c:\\users\\hirem\\source\\repos\\kcetprep1\\areas\\identity\\pages\\account\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|solutionrelative:areas\\identity\\pages\\account\\resetpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|c:\\users\\hirem\\source\\repos\\kcetprep1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{469F03D2-B237-456A-AA66-DDF248323E29}|KcetPrep1.csproj|c:\\users\\hirem\\source\\repos\\kcetprep1\\areas\\identity\\pages\\account\\forgotpassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -394,7 +394,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -402,7 +402,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "kcet_cleaned.csv",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\kcet_cleaned.csv",
               "RelativeDocumentMoniker": "kcet_cleaned.csv",
@@ -414,12 +414,21 @@
               "EditorCaption": ""
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-08T05:20:13.163Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -431,7 +440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "TestController.cs",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Controllers\\TestController.cs",
               "RelativeDocumentMoniker": "Controllers\\TestController.cs",
@@ -443,7 +452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Question.cs",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Models\\Question.cs",
               "RelativeDocumentMoniker": "Models\\Question.cs",
@@ -455,7 +464,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "extract_pdf.py",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\extract_pdf.py",
               "RelativeDocumentMoniker": "extract_pdf.py",
@@ -467,7 +476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "PredictColleges.cshtml",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Views\\Home\\PredictColleges.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\PredictColleges.cshtml",
@@ -479,7 +488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "ResetPassword.cshtml",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Areas\\Identity\\Pages\\Account\\ResetPassword.cshtml",
               "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\ResetPassword.cshtml",
@@ -491,7 +500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "ResetPasswordConfirmation.cshtml",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Areas\\Identity\\Pages\\Account\\ResetPasswordConfirmation.cshtml",
               "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\ResetPasswordConfirmation.cshtml",
@@ -503,7 +512,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -515,7 +524,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
@@ -527,7 +536,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
@@ -539,7 +548,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "TestPage.cshtml",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Views\\Test\\TestPage.cshtml",
               "RelativeDocumentMoniker": "Views\\Test\\TestPage.cshtml",
@@ -551,7 +560,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Result.cshtml",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Views\\Test\\Result.cshtml",
               "RelativeDocumentMoniker": "Views\\Test\\Result.cshtml",
@@ -563,7 +572,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "KcetPrep1.AssemblyInfo.cs",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\obj\\Debug\\net8.0\\KcetPrep1.AssemblyInfo.cs",
               "RelativeDocumentMoniker": "obj\\Debug\\net8.0\\KcetPrep1.AssemblyInfo.cs",
@@ -575,7 +584,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ResetPasswordModel.cs",
               "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\Controllers\\ResetPasswordModel.cs",
               "RelativeDocumentMoniker": "Controllers\\ResetPasswordModel.cs",
@@ -584,18 +593,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T05:12:33.354Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\hirem\\source\\repos\\KcetPrep1\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-05-08T05:20:13.163Z"
             },
             {
               "$type": "Document",
@@ -1533,6 +1530,10 @@
               "RelativeToolTip": "Migrations\\20250508061126_Ramdf23.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T06:11:26.585Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
             }
           ]
         }

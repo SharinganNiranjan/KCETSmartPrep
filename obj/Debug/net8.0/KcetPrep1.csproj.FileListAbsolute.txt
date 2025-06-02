@@ -609,3 +609,4 @@ C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\refs\Microsoft.Extensions
 C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
 C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\MailKit.dll
 C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\MimeKit.dll
+C:\Users\hirem\source\repos\KcetPrep1\obj\Debug\net8.0\KcetPrep1.sourcelink.json
