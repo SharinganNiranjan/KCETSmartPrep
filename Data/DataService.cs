@@ -27,7 +27,7 @@ namespace KcetPrep1.Data
             _csvPath = configuration.GetValue<string>("CsvDataPath") ?? @"C:\Users\hirem\source\repos\KcetPrep1\kcet_cleaned.csv";
         }
 
-        public async Task SeedDatabaseFromCsvAsync()
+        public async Task SeedDatabaseFromCsvAsync(string csvDataPath)
         {
             try
             {
