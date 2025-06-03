@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KcetPrep1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250603060157_MYownworld")]
-    partial class MYownworld
+    [Migration("20250603061841_JaiSHreeRam")]
+    partial class JaiSHreeRam
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

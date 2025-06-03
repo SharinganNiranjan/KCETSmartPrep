@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KcetPrep1.Migrations
 {
     /// <inheritdoc />
-    public partial class MYownworld : Migration
+    public partial class JaiSHreeRam : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
