@@ -5,47 +5,27 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 1) DETERMINE THE CONNECTION STRING BASED ON ENVIRONMENT
-// ─────────────────────────────────────────────────────────────────────────────
-string sqlConnString;
+// 1) DETERMINE THE CONNECTION STRING
+string sqlConnString = builder.Environment.IsDevelopment()
+    ? builder.Configuration.GetConnectionString("DefaultConnection")
+    : Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING");
 
-if (builder.Environment.IsDevelopment())
+if (string.IsNullOrEmpty(sqlConnString))
 {
-    // In Development, read from appsettings.json → "DefaultConnection"
-    sqlConnString = builder.Configuration.GetConnectionString("DefaultConnection");
-    if (string.IsNullOrEmpty(sqlConnString))
-    {
-        throw new Exception("DefaultConnection is not set in appsettings.json.");
-    }
-}
-else
-{
-    // In Production (Railway), read the MSSQL_CONNECTION_STRING or SQLSERVER_URL env var
-    sqlConnString =
-        Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING")
-        ?? Environment.GetEnvironmentVariable("SQLSERVER_URL");
-
-    if (string.IsNullOrEmpty(sqlConnString))
-    {
-        throw new Exception(
-            "MSSQL_CONNECTION_STRING (or SQLSERVER_URL) is not set. " +
-            "Did you add the Railway SQL Server plugin and copy its connection string name exactly?");
-    }
+    throw new Exception(builder.Environment.IsDevelopment()
+        ? "DefaultConnection is not set in appsettings.json."
+        : "MSSQL_CONNECTION_STRING is not set in the Azure environment.");
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 2) REGISTER DbContext USING THE SELECTED CONNECTION STRING
-// ─────────────────────────────────────────────────────────────────────────────
+// 2) REGISTER DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(sqlConnString));
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 3) CONFIGURE ASP.NET IDENTITY WITH ROLES
-// ─────────────────────────────────────────────────────────────────────────────
+// 3) CONFIGURE ASP.NET IDENTITY
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedEmail = false;
@@ -58,19 +38,17 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 4) MVC + RAZOR RUNTIME COMPILATION
-// ─────────────────────────────────────────────────────────────────────────────
-builder.Services
-    .AddControllersWithViews(options =>
-    {
-        options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter());
-    })
-    .AddRazorRuntimeCompilation();
+// 4) MVC CONFIGURATION
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+}
+else
+{
+    builder.Services.AddControllersWithViews();
+}
 
-// ─────────────────────────────────────────────────────────────────────────────
 // 5) SESSION CONFIGURATION
-// ─────────────────────────────────────────────────────────────────────────────
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -79,14 +57,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 6) DEPENDENCY INJECTION FOR YOUR DATA SERVICE
-// ─────────────────────────────────────────────────────────────────────────────
+// 6) DEPENDENCY INJECTION
 builder.Services.AddScoped<DataService>();
 
-// ─────────────────────────────────────────────────────────────────────────────
 // 7) LOGGING
-// ─────────────────────────────────────────────────────────────────────────────
 builder.Services.AddLogging(logging =>
 {
     logging.ClearProviders();
@@ -95,9 +69,7 @@ builder.Services.AddLogging(logging =>
     logging.SetMinimumLevel(LogLevel.Information);
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 8) CONFIGURE COOKIE PATHS FOR AUTHENTICATION
-// ─────────────────────────────────────────────────────────────────────────────
+// 8) CONFIGURE COOKIE PATHS
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
@@ -105,17 +77,13 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Account/Logout";
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 9) BIND KESTREL TO RAILWAY’S PROVIDED PORT (OR DEFAULT TO :80)
-// ─────────────────────────────────────────────────────────────────────────────
+// 9) BIND KESTREL
 var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
-builder.WebHost.UseUrls($"http://*:{port}");
+builder.WebHost.UseUrls($"[invalid url, do not cite]");
 
 var app = builder.Build();
 
-// ─────────────────────────────────────────────────────────────────────────────
 // 10) RUN EF MIGRATIONS + SEED ROLES, ADMIN, AND (OPTIONAL) CSV DATA
-// ─────────────────────────────────────────────────────────────────────────────
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -154,21 +122,21 @@ using (var scope = app.Services.CreateScope())
             {
                 await userManager.AddToRoleAsync(adminUser, "Admin");
             }
+            else
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError("Failed to create admin user: {Errors}", string.Join(", ", result.Errors.Select(e => e.Description)));
+                throw new Exception("Admin user creation failed.");
+            }
         }
         else if (!await userManager.IsInRoleAsync(adminUser, "Admin"))
         {
             await userManager.AddToRoleAsync(adminUser, "Admin");
         }
 
-        // 10c) OPTIONAL CSV SEEDING (ONLY IF THE FILE EXISTS)
-        //    - In appsettings.json you have "CsvDataPath": "C:\\Users\\hirem\\…"
-        //    - On Railway, that Windows-style path won’t exist, so the code skips it.
+        // 10c) OPTIONAL CSV SEEDING
         var dataService = services.GetRequiredService<DataService>();
-
-        // Read CsvDataPath from configuration (appsettings.json or env var override)
-        var csvDataPath = builder.Configuration["CsvDataPath"]
-                          // If you want to override from Railway Variables, set CSVDATAPATH env var.
-                          ?? string.Empty;
+        var csvDataPath = app.Configuration["CsvDataPath"] ?? string.Empty;
 
         if (!string.IsNullOrEmpty(csvDataPath) && File.Exists(csvDataPath))
         {
@@ -177,10 +145,14 @@ using (var scope = app.Services.CreateScope())
         else
         {
             var logger = services.GetRequiredService<ILogger<Program>>();
-            logger.LogInformation(
-                "CSV file not found at '{CsvDataPath}'. Skipping CSV seed.",
-                csvDataPath);
+            logger.LogInformation("CSV file not found at '{CsvDataPath}'. Skipping CSV seed.", csvDataPath);
         }
+    }
+    catch (SqlException ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "❌ A database error occurred while seeding the database.");
+        throw; // Fail fast for critical database issues
     }
     catch (Exception ex)
     {
@@ -189,9 +161,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// 11) MIDDLEWARE PIPELINE (UNCHANGED)
-// ─────────────────────────────────────────────────────────────────────────────
+// 11) MIDDLEWARE PIPELINE
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
