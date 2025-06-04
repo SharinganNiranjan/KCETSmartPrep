@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KcetPrep1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+59f52356094eb219c1d35fc7471422ac0f3e4302")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9372bbf7684d16271e94205c821cd396e50eebd2")]
 [assembly: System.Reflection.AssemblyProductAttribute("KcetPrep1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KcetPrep1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

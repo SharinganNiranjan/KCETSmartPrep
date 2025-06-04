@@ -10,15 +10,16 @@ using Microsoft.Data.SqlClient;
 var builder = WebApplication.CreateBuilder(args);
 
 // 1) DETERMINE THE CONNECTION STRING
-string sqlConnString = builder.Environment.IsDevelopment()
-    ? builder.Configuration.GetConnectionString("DefaultConnection")
-    : Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING");
+//   - In Development: read "DefaultConnection" from appsettings.json
+//   - In Production (Azure): read "ConnectionStrings__DefaultConnection" OR "MSSQL_CONNECTION_STRING"
+string sqlConnString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING");
 
 if (string.IsNullOrEmpty(sqlConnString))
 {
     throw new Exception(builder.Environment.IsDevelopment()
         ? "DefaultConnection is not set in appsettings.json."
-        : "MSSQL_CONNECTION_STRING is not set in the Azure environment.");
+        : "Neither ConnectionStrings__DefaultConnection nor MSSQL_CONNECTION_STRING is set in the Azure environment.");
 }
 
 // 2) REGISTER DbContext
@@ -77,9 +78,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Account/Logout";
 });
 
-// 9) BIND KESTREL
-var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
-builder.WebHost.UseUrls($"[invalid url, do not cite]");
+// 9) BIND KESTREL (not needed on Azure App Service)
+// var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
+// builder.WebHost.UseUrls($"http://*:{port}");
 
 var app = builder.Build();
 
@@ -89,11 +90,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        // 10a) APPLY ANY PENDING MIGRATIONS
         var db = services.GetRequiredService<ApplicationDbContext>();
         await db.Database.MigrateAsync();
 
-        // 10b) SEED ROLES AND ADMIN USER
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
@@ -134,7 +133,6 @@ using (var scope = app.Services.CreateScope())
             await userManager.AddToRoleAsync(adminUser, "Admin");
         }
 
-        // 10c) OPTIONAL CSV SEEDING
         var dataService = services.GetRequiredService<DataService>();
         var csvDataPath = app.Configuration["CsvDataPath"] ?? string.Empty;
 
@@ -152,7 +150,7 @@ using (var scope = app.Services.CreateScope())
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "❌ A database error occurred while seeding the database.");
-        throw; // Fail fast for critical database issues
+        throw;
     }
     catch (Exception ex)
     {
@@ -175,7 +173,6 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Default route points to Account/Login
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
