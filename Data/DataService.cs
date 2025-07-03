@@ -26,7 +26,10 @@ namespace KcetPrep1.Data
             _logger = logger;
             _csvPath = configuration.GetValue<string>("CsvDataPath") ?? @"C:\Users\hirem\source\repos\KcetPrep1\kcet_cleaned.csv";
         }
-
+        public List<College> GetColleges()
+        {
+            return _context.Colleges.ToList();
+        }
         public async Task SeedDatabaseFromCsvAsync(string csvDataPath)
         {
             try

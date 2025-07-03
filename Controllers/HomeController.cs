@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace KcetPrep1.Controllers
 {
@@ -64,58 +65,82 @@ namespace KcetPrep1.Controllers
             return View();
         }
 
-        private List<CollegePredictionResult> PredictCollegesInternal(int userRank, string userCategory, string userBranch)
+       private List<CollegePredictionResult> PredictCollegesInternal(int userRank, string userCategory, string userBranch)
+{
+    var catFilter = userCategory.Trim().ToUpperInvariant();
+    var branchFilter = userBranch?.Trim().ToUpperInvariant();
+
+    // 1) Query colleges from the database via DataService
+    //    (assumes DataService exposes a method or property to get College entities)
+    var colleges = _dataService.GetColleges()   // or DbContext.Colleges if available
+                       .ToList();             // force query execution:contentReference[oaicite:3]{index=3}
+
+    // 2) Apply branch filter to colleges
+    if (!string.IsNullOrEmpty(branchFilter))
+    {
+        colleges = colleges
+            .Where(c => !string.IsNullOrEmpty(c.Branch) &&
+                        c.Branch.Trim().ToUpperInvariant() == branchFilter)
+            .ToList();
+    }
+
+    // 3) Define dynamic window around userRank
+    int lower = System.Math.Max(userRank - 500, 1);
+    int upper = (int)(userRank * 3.5);
+
+    var results = new List<CollegePredictionResult>();
+
+    // 4) For each college, examine its CutoffRanks dictionary entries
+    foreach (var college in colleges)
+    {
+        if (college.CutoffRanks == null) 
+            continue;
+
+        foreach (var kvp in college.CutoffRanks)
         {
-            var catFilter = userCategory.Trim().ToUpperInvariant();
-            var branchFilter = userBranch?.Trim().ToUpperInvariant();
+            // Split the dictionary key (format assumed "Year_Category", e.g. "2022_1G")
+            string[] parts = kvp.Key.Split('_');  // .Split() usage:contentReference[oaicite:4]{index=4}
+            if (parts.Length != 2) 
+                continue;
 
-            var allData = LoadCsvData();
-            _logger.LogInformation($"Loaded {allData.Count} rows from CSV");
+            string yearStr = parts[0];
+            string categoryKey = parts[1].ToUpperInvariant();
+            if (categoryKey != catFilter)
+                continue;  // Skip categories that don’t match
 
-            // 1) Filter by category & branch
-            var relevant = allData
-                .Where(r =>
-                    !string.IsNullOrEmpty(r.Category) &&
-                    r.Category.Trim().ToUpperInvariant() == catFilter &&
-                    (string.IsNullOrEmpty(branchFilter) ||
-                     r.Branch?.Trim().ToUpperInvariant() == branchFilter))
-                .ToList();
-            _logger.LogInformation($"After category/branch filter: {relevant.Count} rows");
+            // Parse the year and closing rank value
+            if (!int.TryParse(yearStr, out int year))
+                continue;  // Malformed year
+            int closingRank = kvp.Value;
 
-            // 2) Define dynamic window around userRank
-            int lower = System.Math.Max(userRank - 500, 1);
-            int upper = (int)(userRank * 3.5);
-            _logger.LogInformation($"Filtering closing ranks between {lower} and {upper}");
+            // Filter by the dynamic rank window [lower, upper]
+            if (closingRank >= lower && closingRank <= upper)
+            {
+                // Compute admission chance based on rank comparison
+                string chance = userRank < closingRank
+                                 ? "High"
+                                 : userRank > closingRank
+                                   ? "Low"
+                                   : "Moderate";
 
-            // 3) Parse, filter by window, and project results
-            var results = relevant
-                .Select(r =>
-                {
-                    var text = r.ClosingRank.Replace(",", "").Trim();
-                    if (!int.TryParse(text, out int rank))
-                    {
-                        _logger.LogWarning($"Cannot parse ClosingRank '{r.ClosingRank}' for {r.CollegeName}");
-                        return null;
-                    }
-                    return new { Record = r, Rank = rank };
-                })
-                .Where(x => x != null && x.Rank >= lower && x.Rank <= upper)
-                .Select(x => new CollegePredictionResult
-                {
-                    CollegeName = x.Record.CollegeName.Trim(),
-                    Branch = x.Record.Branch.Trim(),
-                    Category = x.Record.Category.Trim(),
-                    ClosingRank = x.Rank,
-                    Chance = userRank < x.Rank ? "High" :
-                                  userRank > x.Rank ? "Low" : "Moderate",
-                    Years = x.Record.Year
-                })
-                .OrderBy(r => r.ClosingRank)
-                .ToList();
+                // Add to result list
+                results.Add(new CollegePredictionResult {
+                    CollegeName = college.Name.Trim(),
+                    Branch      = college.Branch.Trim(),
+                    Category    = categoryKey,
+                    ClosingRank = closingRank,
+                    Chance      = chance,
+                    Years = year.ToString()
 
-            _logger.LogInformation($"Found {results.Count} colleges in rank window [{lower}, {upper}]");
-            return results;
+                });
+            }
         }
+    }
+
+    // 5) Sort by ClosingRank ascending
+    results = results.OrderBy(r => r.ClosingRank).ToList();
+    return results;
+}
 
         private List<KcetRecord> LoadCsvData()
         {

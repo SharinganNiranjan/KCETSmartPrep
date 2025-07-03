@@ -1,8 +1,12 @@
 {
   "dependencies": {
-    "mssql1": {
-      "type": "mssql.local",
-      "connectionId": "ConnectionStrings:KcetPrep1ContextConnection"
+    "mssql4": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ServiceLinker/locations/southindia/connectors/DefaultConnection_6F5500CD5D",
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/kcetsmartprep-sql/databases/KDB123",
+      "type": "mssql.azure",
+      "connectionId": "DefaultConnection",
+      "dynamicId": null
     }
   }
 }

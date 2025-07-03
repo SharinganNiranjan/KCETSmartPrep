@@ -1,9 +1,20 @@
 {
   "dependencies": {
-    "mssql1": {
+    "mssql4": {
       "restored": true,
-      "restoreTime": "2025-05-23T16:43:37.0121279Z"
+      "restoreTime": "2025-07-02T11:52:25.7271304Z"
     }
   },
-  "parameters": {}
+  "parameters": {
+    "mssql4.resourceGroupName": {
+      "Name": "mssql4.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "kcetsmartprep_group"
+    },
+    "mssql4.subscriptionId": {
+      "Name": "mssql4.subscriptionId",
+      "Type": "subscription",
+      "Value": "12f5bd04-1b2e-4dfc-83e3-c1311fcae1b5"
+    }
+  }
 }

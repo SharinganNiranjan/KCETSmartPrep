@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 //   - In Development: read "DefaultConnection" from appsettings.json
 //   - In Production (Azure): read "ConnectionStrings__DefaultConnection" OR "MSSQL_CONNECTION_STRING"
 string sqlConnString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
                        ?? Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING");
 
 if (string.IsNullOrEmpty(sqlConnString))
@@ -77,6 +78,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
     options.LogoutPath = "/Account/Logout";
 });
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables(); // ✅ This line is crucial
 
 // 9) BIND KESTREL (not needed on Azure App Service)
 // var port = Environment.GetEnvironmentVariable("PORT") ?? "80";
