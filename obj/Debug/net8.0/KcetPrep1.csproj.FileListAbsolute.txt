@@ -1,3 +1,4 @@
+C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\web.config
 C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\appsettings.json
 C:\Users\hirem\source\repos\KcetPrep1\bin\Debug\net8.0\KcetPrep1.staticwebassets.runtime.json

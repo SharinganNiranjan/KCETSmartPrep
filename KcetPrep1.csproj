@@ -7,6 +7,9 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>.</DockerfileContext>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Content Remove="wwwroot\data\kcet_cleaned.csv" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<!-- EF Core—all at 8.0.11 -->
@@ -44,5 +47,9 @@
 
 		<!-- Optional SQLite -->
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\data\kcet_cleaned.csv" />
 	</ItemGroup>
 </Project>

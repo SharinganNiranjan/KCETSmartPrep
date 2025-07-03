@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "ignored": "true",
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "dynamicId": null
+    },
+    "mssql4": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/KcetPrep120250702161631/providers/Microsoft.ServiceLinker/linkers/DefaultConnection_6F5500CD5D",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/kcetsmartprep-sql/databases/KDB123",
+      "type": "mssql.azure",
+      "connectionId": "DefaultConnection"
+    }
+  }
+}
